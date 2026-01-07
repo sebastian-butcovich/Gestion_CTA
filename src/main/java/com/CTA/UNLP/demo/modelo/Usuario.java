@@ -32,19 +32,6 @@ public class Usuario {
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, fetch=FetchType.LAZY)
     private List<Token> tokens;
 
-//    public Usuario(List<Token> tokens, Ubicacion ubicacion, List<Telefono> telefonos, String email, String contrasenia, Roles rol, String nombre_usuario, String apellido, String nombre, Long id) {
-//        this.tokens = tokens;
-//        this.ubicacion = ubicacion;
-//        this.telefonos = telefonos;
-//        this.email = email;
-//        this.contrasenia = contrasenia;
-//        this.rol = rol;
-//        this.nombre_usuario = nombre_usuario;
-//        this.apellido = apellido;
-//        this.nombre = nombre;
-//        this.id = id;
-//    }
-
     public Usuario() {
     }
 }

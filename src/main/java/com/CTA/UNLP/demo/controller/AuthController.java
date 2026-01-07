@@ -1,8 +1,8 @@
 package com.CTA.UNLP.demo.controller;
 
-import com.CTA.UNLP.demo.fileRequest.LoginRequest;
-import com.CTA.UNLP.demo.fileRequest.RegisterRequest;
-import com.CTA.UNLP.demo.fileRequest.TokenResponse;
+import com.CTA.UNLP.demo.fileRequest.Request.LoginRequest;
+import com.CTA.UNLP.demo.fileRequest.Request.RegisterRequest;
+import com.CTA.UNLP.demo.fileRequest.Response.TokenResponse;
 import com.CTA.UNLP.demo.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;

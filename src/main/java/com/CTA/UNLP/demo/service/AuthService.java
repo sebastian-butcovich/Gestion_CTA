@@ -1,7 +1,7 @@
 package com.CTA.UNLP.demo.service;
 
-import com.CTA.UNLP.demo.fileRequest.LoginRequest;
-import com.CTA.UNLP.demo.fileRequest.TokenResponse;
+import com.CTA.UNLP.demo.fileRequest.Request.LoginRequest;
+import com.CTA.UNLP.demo.fileRequest.Response.TokenResponse;
 import com.CTA.UNLP.demo.modelo.Token;
 import com.CTA.UNLP.demo.modelo.Usuario;
 import com.CTA.UNLP.demo.repository.TokenRepository;
@@ -12,7 +12,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import com.CTA.UNLP.demo.fileRequest.RegisterRequest;
+import com.CTA.UNLP.demo.fileRequest.Request.RegisterRequest;
 
 import java.util.List;
 

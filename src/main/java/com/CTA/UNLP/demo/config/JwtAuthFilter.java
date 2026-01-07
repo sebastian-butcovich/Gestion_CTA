@@ -22,6 +22,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -34,7 +35,14 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     protected void doFilterInternal(@NonNull  HttpServletRequest request,
                                     @NonNull HttpServletResponse response,
                                     @NonNull FilterChain filterChain) throws ServletException, IOException {
-        if (request.getServletPath().contains("/auth")){
+        if (request.getServletPath().contains("/auth")|| request.getServletPath().contains("/magnitud")){
+
+//            if ("POST".equalsIgnoreCase(request.getMethod()))
+//            {
+//               var test = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
+//               System.out.println(test);
+//            }
+
             filterChain.doFilter(request,response);
             return;
         }

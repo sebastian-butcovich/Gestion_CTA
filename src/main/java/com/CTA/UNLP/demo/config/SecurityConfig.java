@@ -29,13 +29,12 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
                 // ... other configurations like csrf().disable() for APIs
-                .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/auth/**").permitAll()// Public endpoints
-                        .requestMatchers("/bateria/**").permitAll()// Se asumen que son todas peticiones de vehículos o programas automáticos sin error o malicia humana
-                        .anyRequest().authenticated()               // All other requests require authentication
-                ).sessionManagement(session-> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authenticationProvider(authenticationProvider)
-                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+               // .authorizeHttpRequests(authorize -> authorize
+                 //       .requestMatchers("/auth/**","/magnitud/**").permitAll()// Public endpoints
+                   //     .anyRequest().authenticated()               // All other requests require authentication
+                //).sessionManagement(session-> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                //.authenticationProvider(authenticationProvider)
+                //.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .logout(logout->logout.logoutUrl("/auth/logout").addLogoutHandler((request,response,authentication)->{
                     final var authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
                     logout(authHeader);

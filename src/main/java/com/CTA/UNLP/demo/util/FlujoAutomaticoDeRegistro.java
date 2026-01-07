@@ -14,6 +14,6 @@ public class FlujoAutomaticoDeRegistro {
     private BateriaRepository bateriaRepository;
     //Esta función en caso de que salga bien, devuelve el ID de la batería
     public Long ingresoAutomatico(MagnitudFisica mf){
-
+        return null;
     }
 }

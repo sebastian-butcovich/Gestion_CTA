@@ -1,4 +1,4 @@
-package com.CTA.UNLP.demo.fileRequest;
+package com.CTA.UNLP.demo.fileRequest.Response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

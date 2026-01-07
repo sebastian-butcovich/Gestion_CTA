@@ -1,4 +1,4 @@
-package com.CTA.UNLP.demo.fileRequest;
+package com.CTA.UNLP.demo.fileRequest.Request;
 
 import com.CTA.UNLP.demo.modelo.Telefono;
 import com.CTA.UNLP.demo.modelo.Ubicacion;

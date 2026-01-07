@@ -9,4 +9,6 @@ import java.util.Optional;
 @Repository
 public interface BateriaRepository extends JpaRepository<Bateria,Long> {
     public Optional<Bateria> findById(Long id);
+
+    Long id(Long id);
 }
