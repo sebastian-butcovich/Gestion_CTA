@@ -32,23 +32,23 @@ public class MagnitudFisicaService {
             if(magnitudFisicaRequest.getFirst().idBateria() == null || magnitudFisicaRequest.getFirst().idBateria() == 0){
                 //Tengo que agregar un vehículo y una batería
                 Vehiculo v = new Vehiculo();
-                v.setNombre("Rellenar");
+                v.setNombre("PENDIENTE_CONFIGURACION");
                 Ubicacion u = new Ubicacion();
-                u.setPais("Rellenar");
-                u.setProvincia("Rellenar");
-                u.setCiudad("Rellenar");
-                u.setCalle("Rellenar");
-                u.setNumero("Rellenar");
+                u.setPais("PENDIENTE_CONFIGURACION");
+                u.setProvincia("PENDIENTE_CONFIGURACION");
+                u.setCiudad("PENDIENTE_CONFIGURACION");
+                u.setCalle("PENDIENTE_CONFIGURACION");
+                u.setNumero("PENDIENTE_CONFIGURACION");
                 v.setUbicacion(u);
                 Bateria b = new Bateria();
-                b.setNombre("Rellenar");
+                b.setNombre("PENDIENTE_CONFIGURACION");
                 b.setNumero_celdas(-1);
                 b.setMagnitudes(new ArrayList<MagnitudFisica>());
                 for(MagnitudFisicaRequest i:magnitudFisicaRequest) {
                     MagnitudFisica m = new MagnitudFisica();
                     m.setMagnitud(i.tipo());
                     m.setValor(i.valor());
-                    m.setFecha(new Date());
+                    m.setFecha(i.fecha());
                     b.getMagnitudes().add(m);
                     m.setBateria(b);
                 }
@@ -62,7 +62,7 @@ public class MagnitudFisicaService {
                 for(MagnitudFisicaRequest i:magnitudFisicaRequest) {
                     MagnitudFisica m = new MagnitudFisica();
                     m.setBateria(b);
-                    m.setFecha(new Date());
+                    m.setFecha(i.fecha());
                     m.setValor(i.valor());
                     m.setMagnitud(i.tipo());
                    b.getMagnitudes().add(m);
