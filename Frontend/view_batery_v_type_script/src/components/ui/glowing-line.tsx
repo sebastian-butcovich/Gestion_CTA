@@ -16,7 +16,6 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 import { Badge } from "@/components/ui/badge";
-import { TrendingUp } from "lucide-react";
 import { useEffect, useState } from "react";
 import { formatearDatos, formatearParaGraficar } from "@/util/formatearDatos";
 
@@ -64,10 +63,14 @@ export function GlowingLineChart() {
     let dAux = formatearDatos(magnitudesResponse);
     //Formateo los datos para poder mostrarlo en el gráfico
     let fDAux = formatearParaGraficar(dAux);
+    console.log(fDAux);
     setDatos(fDAux);
   }
   useEffect(() => {
-    obtenerDatos();
+    const intervalId = setInterval(()=>{
+      obtenerDatos();
+    },5000);
+    return ()=>clearInterval(intervalId)
   }, [])
   return (
     <Card>
@@ -78,8 +81,6 @@ export function GlowingLineChart() {
             variant="outline"
             className="text-green-500 bg-green-500/10 border-none ml-2"
           >
-            <TrendingUp className="h-4 w-4" />
-            <span>5.2%</span>
           </Badge>
         </CardTitle>
         <CardDescription>Magnitudes - Enero 2026</CardDescription>

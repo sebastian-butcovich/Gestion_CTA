@@ -1,4 +1,4 @@
-package com.CTA.UNLP.demo.service.Bateria;
+package com.CTA.UNLP.demo.service.vehiculos.Bateria;
 
 import com.CTA.UNLP.demo.fileRequest.Request.MagnitudFisicaRequest;
 import com.CTA.UNLP.demo.fileRequest.Response.Bateria.MagnitudFisica.ListMagnitudFisicas;

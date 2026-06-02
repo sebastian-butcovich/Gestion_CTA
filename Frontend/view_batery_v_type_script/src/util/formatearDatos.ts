@@ -10,11 +10,11 @@ export function formatearDatos(magnitudes){
         let f = magnitudes[k].fecha;
         let d = new Date(f);
         console.log(d.getHours())
-        let fFormateada = `${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}`;
+        let fFormateada = `${d.getHours()+3}:${d.getMinutes()}:${d.getSeconds()}`;
         formateadas.push({
             fecha:fFormateada,
             valor:magnitudes[k].valor,
-        tipo:magnitudes[k].tipo})
+        tipo:magnitudes[k].tipo.tipo})
         }
     }else{
         for(let k=0;k<magnitudes.length;k++){
@@ -22,11 +22,11 @@ export function formatearDatos(magnitudes){
         let f = magnitudes[k].fecha;
         let d = new Date(f);
         //console.log(d.getHours())
-        let fFormateada = `${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}`;
+        let fFormateada = `${d.getHours()+3}:${d.getMinutes()}:${d.getSeconds()}`;
         formateadas.push({
             fecha:fFormateada,
             valor:magnitudes[k].valor,
-        tipo:magnitudes[k].tipo})
+        tipo:magnitudes[k].tipo.tipo})
     }
     }
     //console.log(formateadas)

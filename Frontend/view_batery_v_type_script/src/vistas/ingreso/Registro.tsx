@@ -1,5 +1,5 @@
 export function Registro(){
-    return (<div>
-        
+    return (<div className="container">
+        <h1 className="titulo">Registro</h1>
     </div>)
 }

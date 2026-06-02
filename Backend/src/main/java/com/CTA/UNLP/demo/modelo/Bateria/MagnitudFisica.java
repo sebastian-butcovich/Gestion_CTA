@@ -1,5 +1,6 @@
 package com.CTA.UNLP.demo.modelo.Bateria;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -17,5 +18,6 @@ public  class MagnitudFisica {
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private TipoMagnitud magnitud;
     @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @JsonBackReference
     private Bateria bateria;
 }

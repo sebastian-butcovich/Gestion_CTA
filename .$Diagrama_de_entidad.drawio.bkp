@@ -951,7 +951,7 @@
     </mxGraphModel>
   </diagram>
   <diagram id="_11hf_OyxjgT8Cl4Al4h" name="Versión-2.1">
-    <mxGraphModel dx="2610" dy="2263" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="2610" dy="2223" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -1656,9 +1656,6 @@
         </mxCell>
         <mxCell id="fyoL0g2G08H4_uRZimKl-23" value="Estado" style="ellipse;whiteSpace=wrap;html=1;align=center;dashed=1;rotation=0;labelPosition=center;verticalLabelPosition=top;verticalAlign=bottom;" vertex="1" parent="1">
           <mxGeometry x="610" y="-370" width="20" height="20" as="geometry" />
-        </mxCell>
-        <mxCell id="fyoL0g2G08H4_uRZimKl-26" value="" style="ellipse;whiteSpace=wrap;html=1;align=center;dashed=1;rotation=0;labelPosition=center;verticalLabelPosition=top;verticalAlign=bottom;" vertex="1" parent="1">
-          <mxGeometry x="460" y="-240" width="20" height="20" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>

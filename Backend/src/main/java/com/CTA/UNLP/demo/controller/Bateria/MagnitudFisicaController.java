@@ -2,8 +2,7 @@ package com.CTA.UNLP.demo.controller.Bateria;
 
 import com.CTA.UNLP.demo.fileRequest.Request.MagnitudFisicaRequest;
 import com.CTA.UNLP.demo.fileRequest.Response.Bateria.MagnitudFisica.ListMagnitudFisicas;
-import com.CTA.UNLP.demo.fileRequest.Response.Bateria.MagnitudFisica.MagnitudFisicaResponse;
-import com.CTA.UNLP.demo.service.Bateria.MagnitudFisicaService;
+import com.CTA.UNLP.demo.service.vehiculos.Bateria.MagnitudFisicaService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

@@ -1,0 +1,15 @@
+.contenedor {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+}
+
+.vehiculos {
+    height: auto;
+    display: flex;
+    justify-content: space-between;
+    gap:20px;
+    flex-wrap: wrap;
+    margin-top: 5rem;
+    padding-bottom: 10%;
+}

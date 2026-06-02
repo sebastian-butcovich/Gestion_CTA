@@ -1,4 +1,4 @@
-package com.CTA.UNLP.demo.service.Bateria;
+package com.CTA.UNLP.demo.service.vehiculos.Bateria;
 
 import com.CTA.UNLP.demo.repository.Bateria.BateriaRepository;
 import com.CTA.UNLP.demo.repository.VehiculoRepository;
