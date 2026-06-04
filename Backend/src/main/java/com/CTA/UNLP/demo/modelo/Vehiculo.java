@@ -1,5 +1,6 @@
 package com.CTA.UNLP.demo.modelo;
 
+import com.CTA.UNLP.demo.modelo.Bateria.Bateria;
 import com.CTA.UNLP.demo.modelo.Partes.Partes;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -15,6 +16,6 @@ public class Vehiculo {
     private String nombre;
     @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private Ubicacion ubicacion;
-    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    private List<Partes> partes;
+    @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    private Bateria bateria;
 }

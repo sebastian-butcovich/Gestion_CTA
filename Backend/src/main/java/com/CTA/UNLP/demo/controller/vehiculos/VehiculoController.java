@@ -4,20 +4,28 @@ import com.CTA.UNLP.demo.modelo.Vehiculo;
 import com.CTA.UNLP.demo.service.vehiculos.VehiculoService;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.data.repository.query.Param;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/vehiculos")
-
+@CrossOrigin("*")
 public class VehiculoController {
     @Autowired
     private VehiculoService vehiculoService;
     @GetMapping
     public List<Vehiculo> obtenerTodosLosVehiculos(){
         return vehiculoService.obtenerTodosLosVehiculos();
+    }
+    @GetMapping("/{id}")
+    public ResponseEntity<Vehiculo> obtenerVehiculoPorId(@PathVariable Integer id){
+        return vehiculoService.obtenerVehiculoPorId(id);
+    }
+    @PostMapping
+    public ResponseEntity<String> modificarVehiculo(@RequestBody Vehiculo vehiculo){
+        return vehiculoService.modificarVehiculo(vehiculo);
     }
 }

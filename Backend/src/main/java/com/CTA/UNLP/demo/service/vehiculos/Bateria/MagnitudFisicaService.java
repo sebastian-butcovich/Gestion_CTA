@@ -29,7 +29,7 @@ public class MagnitudFisicaService {
     private final VehiculoRepository vehiculoRepository;
     @Transactional
     public Long agregarMagnitudFisica(List<MagnitudFisicaRequest> magnitudFisicaRequest){
-            if(magnitudFisicaRequest.getFirst().idBateria() == null || magnitudFisicaRequest.getFirst().idBateria() == 0){
+            if(magnitudFisicaRequest.getFirst().idBateria() == null || magnitudFisicaRequest.getFirst().idBateria() <= 0){
                 //Tengo que agregar un vehículo y una batería
                 Vehiculo v = new Vehiculo();
                 v.setNombre("PENDIENTE_CONFIGURACION");
@@ -52,8 +52,7 @@ public class MagnitudFisicaService {
                     b.getMagnitudes().add(m);
                     m.setBateria(b);
                 }
-                v.setPartes(new ArrayList<Partes>());
-                v.getPartes().add(b);
+                v.setBateria(b);
                 vehiculoRepository.save(v);
                 return b.getId();
             }else{
