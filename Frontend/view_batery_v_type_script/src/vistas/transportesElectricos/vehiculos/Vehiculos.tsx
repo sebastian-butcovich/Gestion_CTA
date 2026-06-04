@@ -15,6 +15,7 @@ export function VehiculosElectricos(){
     async function obtenerVehiculosElectricos(){
         const response = await obtenerVehiculos();
         if(response.status =200){
+            console.log("Vehiculos",response.data)
             setVehiculos(response.data)
         }
     }
@@ -24,7 +25,7 @@ export function VehiculosElectricos(){
     return(<div className="contenedor">
         <h1 className="titulo">Vehículos eléctricos</h1>
         <div className="vehiculos">{ vehiculos.length !=0 ?vehiculos.map((vehiculo)=>(    
-            <TarjetaVehiculo  key={vehiculo.id} nombre={vehiculo.nombre} foto={img} destino="/vistaInterna" ubicacion="" ></TarjetaVehiculo>
+            <TarjetaVehiculo  key={vehiculo.id} nombre={vehiculo.nombre} foto={img} destino="/vistaInterna" ubicacion="" id={vehiculo.id} ></TarjetaVehiculo>
         )):null}</div>
     </div>)
 }

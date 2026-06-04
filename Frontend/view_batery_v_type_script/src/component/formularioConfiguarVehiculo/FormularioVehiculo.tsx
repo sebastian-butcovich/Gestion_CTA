@@ -1,33 +1,43 @@
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import "./formularioVehiculo.scss"
-import { obtenerVehiculo } from "@/util/peticiones/peticionesVehiculos";
-export default function FormularioVehiculo(id:number) {
-  const [formData, setFormData] = useState({
-    vehiculo: {
-      nombre: "",
-      ubicacion: {
-        pais: "",
-        provincia: "",
-        ciudad: "",
-        calle: "",
-        numero: "",
-      },
+import { modificarDatosVehiculo, obtenerVehiculo } from "@/util/peticiones/peticionesVehiculos";
+import type { Vehiculo } from "@/interfaces/Vehiculos";
+import { useLocation, useNavigate } from "react-router-dom";
+interface Promp {
+  id: number
+}
+
+export default function FormularioVehiculo() {
+  const location = useLocation()
+  const navigate = useNavigate()
+  const [formData, setFormData] = useState<Vehiculo>({
+    id: null,
+    nombre: "",
+    ubicacion: {
+      id: null,
+      pais: "",
+      provincia: "",
+      ciudad: "",
+      calle: "",
+      numero: 0
     },
     bateria: {
+      id: null,
       nombre: "",
-      numero_celdas: "",
-    },
+      numero_celdas: 0
+    }
   });
 
-  const handleChange = (e) => {
+  const handleChange = (e:any) => {
     const { name, value } = e.target;
 
-    const keys = name.split(".");
-
+    const keys: string[] = name.split(".");
+    console.log("Que haces keys", keys);
     setFormData((prev) => {
-      const nuevo = { ...prev };
+      const nuevo: Vehiculo = { ...prev };
 
-      let obj = nuevo;
+      let obj: any = nuevo;
+      console.log("Que tiene objeto", obj)
       for (let i = 0; i < keys.length - 1; i++) {
         obj = obj[keys[i]];
       }
@@ -38,38 +48,79 @@ export default function FormularioVehiculo(id:number) {
     });
   };
 
-  const handleSubmit = (e) => {
+  const  handleSubmit = (e:any) => {
     e.preventDefault();
 
-    const datos = {
-      vehiculo: {
-        nombre: formData.vehiculo.nombre,
-        ubicacion: {
-          pais: formData.vehiculo.ubicacion.pais,
-          provincia: formData.vehiculo.ubicacion.provincia,
-          ciudad: formData.vehiculo.ubicacion.ciudad,
-          calle: formData.vehiculo.ubicacion.calle,
-          numero: formData.vehiculo.ubicacion.numero,
-        },
+    const datos: any = {
+      id: formData?.id,
+      nombre: formData?.nombre,
+      ubicacion: {
+        id:formData.ubicacion.id,
+        pais: formData?.ubicacion.pais,
+        provincia: formData?.ubicacion.provincia,
+        ciudad: formData?.ubicacion.ciudad,
+        calle: formData?.ubicacion.calle,
+        numero: formData?.ubicacion.numero,
       },
       bateria: {
-        nombre: formData.bateria.nombre,
-        numero_celdas: parseInt(formData.bateria.numero_celdas),
-        magnitudes: [],
+        id: formData.bateria.id,
+        nombre: formData?.bateria.nombre,
+        numero_celdas: formData?.bateria.numero_celdas,
       },
     };
 
-    console.log(datos);
 
-    // Acá podrías hacer el POST al backend
-    // axios.post("/api/vehiculos", datos);
+    modificarDatosVehiculo(datos).then(response=>{
+    if(response.status == 200){
+      navigate("/vehiculos")
+    }
+    }).catch(error=>{
+      console.log(error);
+    });
+    
   };
-  async function obtenerDatosDelVehiculo(){
+  async function obtenerDatosDelVehiculo() {
+    const id = location.state.id
     const respuesta = await obtenerVehiculo(id);
+    if (respuesta != undefined && respuesta.status == 200) {
+      if (formData != undefined && formData != null) {
+        let aux: Vehiculo = {
+          id: null,
+          nombre: "",
+          ubicacion: {
+            id: null,
+            pais: "",
+            provincia: "",
+            ciudad: "",
+            calle: "",
+            numero: 0
+          },
+          bateria: {
+            id: null,
+            nombre: "",
+            numero_celdas: 0
+          }
+        }
+        aux.id = respuesta.data.id
+        aux.nombre = respuesta.data.nombre
+        aux.ubicacion.id = respuesta.data.ubicacion.id
+        aux.ubicacion.pais = respuesta.data.ubicacion.pais
+        aux.ubicacion.provincia = respuesta.data.ubicacion.provincia
+        aux.ubicacion.ciudad = respuesta.data.ubicacion.ciudad
+        aux.ubicacion.calle = respuesta.data.ubicacion.calle
+        aux.ubicacion.numero = respuesta.data.ubicacion.numero
+        aux.bateria.id = respuesta.data.bateria.id
+        aux.bateria.nombre = respuesta.data.bateria.nombre
+        aux.bateria.numero_celdas = respuesta.data.bateria.numero_celdas
+        setFormData(aux)
+      } else {
+        console.log("Error al obtener los datos de configuración")
+      }
+    }
   }
-  useEffect(()=>{
+  useEffect(() => {
     obtenerDatosDelVehiculo();
-  })
+  }, [])
   return (
     <form onSubmit={handleSubmit} className="formulario">
       <h2>Vehículo</h2>
@@ -78,8 +129,8 @@ export default function FormularioVehiculo(id:number) {
         <label>Nombre del vehículo</label>
         <input
           type="text"
-          name="vehiculo.nombre"
-          value={formData.vehiculo.nombre}
+          name="nombre"
+          value={formData?.nombre}
           onChange={handleChange}
           required
         />
@@ -91,8 +142,8 @@ export default function FormularioVehiculo(id:number) {
         <label>País</label>
         <input
           type="text"
-          name="vehiculo.ubicacion.pais"
-          value={formData.vehiculo.ubicacion.pais}
+          name="ubicacion.pais"
+          value={formData?.ubicacion.pais}
           onChange={handleChange}
           required
         />
@@ -102,8 +153,8 @@ export default function FormularioVehiculo(id:number) {
         <label>Provincia</label>
         <input
           type="text"
-          name="vehiculo.ubicacion.provincia"
-          value={formData.vehiculo.ubicacion.provincia}
+          name="ubicacion.provincia"
+          value={formData?.ubicacion.provincia}
           onChange={handleChange}
           required
         />
@@ -113,8 +164,8 @@ export default function FormularioVehiculo(id:number) {
         <label>Ciudad</label>
         <input
           type="text"
-          name="vehiculo.ubicacion.ciudad"
-          value={formData.vehiculo.ubicacion.ciudad}
+          name="ubicacion.ciudad"
+          value={formData?.ubicacion.ciudad}
           onChange={handleChange}
           required
         />
@@ -124,8 +175,8 @@ export default function FormularioVehiculo(id:number) {
         <label>Calle</label>
         <input
           type="text"
-          name="vehiculo.ubicacion.calle"
-          value={formData.vehiculo.ubicacion.calle}
+          name="ubicacion.calle"
+          value={formData?.ubicacion.calle}
           onChange={handleChange}
           required
         />
@@ -135,8 +186,8 @@ export default function FormularioVehiculo(id:number) {
         <label>Número</label>
         <input
           type="text"
-          name="vehiculo.ubicacion.numero"
-          value={formData.vehiculo.ubicacion.numero}
+          name="ubicacion.numero"
+          value={formData?.ubicacion.numero}
           onChange={handleChange}
           required
         />
@@ -149,7 +200,7 @@ export default function FormularioVehiculo(id:number) {
         <input
           type="text"
           name="bateria.nombre"
-          value={formData.bateria.nombre}
+          value={formData?.bateria.nombre}
           onChange={handleChange}
           required
         />
@@ -161,7 +212,7 @@ export default function FormularioVehiculo(id:number) {
           type="number"
           min="1"
           name="bateria.numero_celdas"
-          value={formData.bateria.numero_celdas}
+          value={formData?.bateria.numero_celdas}
           onChange={handleChange}
           required
         />

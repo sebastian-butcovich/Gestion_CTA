@@ -47,7 +47,7 @@ const chartConfig = {
   }
 } satisfies ChartConfig;
 //Función que grafica lineas 
-export function GlowingLineChart() {
+export function GlowingLineChart(id:number) {
   //Guarda la respuesta de la última petición realizada
   const [magnitudes, setMagnitudes] = useState([]);
   //Guarda los datos formateados para representarlos en el gráfico
@@ -55,7 +55,7 @@ export function GlowingLineChart() {
 // Obtiene los datos del servidor 
   async function obtenerDatos() {
     //Obtengo las magnitudes con el formato de la respuesta del back
-    const magnitudesResponse = await obtenerMagnitudes();
+    const magnitudesResponse = await obtenerMagnitudes(id);
     //Los guardo
     setMagnitudes(magnitudesResponse);
     //Obtengo una parte de los datos (no quiero todas las entradas ya que pueden ser muchas) y además formateo la fecha de una manera 

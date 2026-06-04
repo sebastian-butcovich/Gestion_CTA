@@ -5,15 +5,20 @@ interface DatosVehiculo{
     ubicacion:string,
     foto:string,
     destino:string
+    id:number
 }
 export function TarjetaVehiculo({
     nombre,
     ubicacion,
     foto,
-    destino
+    destino,
+    id
 }:DatosVehiculo){
+    console.log(id)
     const navegacion = useNavigate();
-    return (<div className="auto-carta" onClick={()=>{navegacion(destino)}}>
+    return (<div className="auto-carta" onClick={()=>{navegacion(destino,{
+        state:{id}
+    })}}>
         <div className="auto-carta-imagen">
             <img src={foto} alt={nombre} className="auto-imagen"/>
             <span className="badge">{nombre}</span>
