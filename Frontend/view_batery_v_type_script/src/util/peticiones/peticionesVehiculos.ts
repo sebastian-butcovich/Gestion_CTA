@@ -18,7 +18,7 @@ export async function obtenerVehiculo(id:number){
     try{
         console.log("El id que envio",id);
         const url = `${URL}vehiculos/${id}`;
-        const response = await axios.get(url)
+        const response = await axios.get<Vehiculo>(url)
         return response;
     }catch(error){
         console.log(error);

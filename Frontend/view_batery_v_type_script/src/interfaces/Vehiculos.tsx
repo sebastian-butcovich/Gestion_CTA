@@ -1,7 +1,7 @@
 export interface Vehiculo{
     id:number|null
     nombre:string
-    bateria:Bateria
+    bateria:Bateria,
     ubicacion:Ubicacion
 }
 export interface Ubicacion{

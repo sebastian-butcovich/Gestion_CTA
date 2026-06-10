@@ -10,14 +10,15 @@ import { Telemetria } from "./vistas/transportesElectricos/vehiculos/vistaIntern
 import { Partes } from "./vistas/transportesElectricos/vehiculos/vistaInterna/partes/Partes";
 import Proyectos from "./vistas/gerencia/proyectos/Proyectos";
 import Configuracion from "./vistas/transportesElectricos/vehiculos/vistaInterna/configuracion/Configuracion";
+import VehiculoSeleccionado from "./util/contextos/VehiculoSeleccionado";
 const rutas = createBrowserRouter([
   {
     path: "/",
     element: <BasicView />,
     children: [
       {
-        path:"/",
-        element:<Proyectos/>
+        path: "/",
+        element: <Proyectos />
       },
       {
         path: "vehiculos",
@@ -28,16 +29,16 @@ const rutas = createBrowserRouter([
         element: <VistaInternaVehiculo />,
       },
       {
-        path:"telemetria",
-        element:<Telemetria/>
+        path: "telemetria",
+        element: <Telemetria />
       },
       {
-        path:"partes",
-        element:<Partes/>
+        path: "partes",
+        element: <Partes />
       },
       {
-        path:"configuracion",
-        element:<Configuracion/>
+        path: "configuracion",
+        element: <Configuracion />
       }
     ],
   },
@@ -62,6 +63,9 @@ const rutas = createBrowserRouter([
   },
 ]);
 function App() {
-  return <RouterProvider router={rutas}></RouterProvider>
+  return (
+    <VehiculoSeleccionado>
+      <RouterProvider router={rutas}></RouterProvider>
+    </VehiculoSeleccionado>)
 }
 export default App;
