@@ -51,4 +51,14 @@ public class VehiculoService {
         //Devuelvo una respuesta
         return ResponseEntity.status(HttpStatus.OK).build();
     }
+    public ResponseEntity<String> eliminarVehiculo(Integer id){
+        //Busco el vehículo.
+        Optional<Vehiculo> vehiculo = this.vehiculoRepository.findById(id);
+        //Pregunto si se encontro el vehículo.
+        if(vehiculo.isPresent()){
+            vehiculoRepository.delete(vehiculo.get());
+            return ResponseEntity.status(HttpStatus.OK).build();
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
 }

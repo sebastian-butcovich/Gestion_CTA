@@ -14,8 +14,7 @@ import java.util.List;
 @Data
 public class Bateria extends Partes {
     private int numero_celdas;
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonManagedReference
+    @OneToMany(mappedBy = "bateria", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     @JsonIgnore
     private List<MagnitudFisica> magnitudes;
 }

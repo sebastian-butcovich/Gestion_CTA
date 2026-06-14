@@ -1,12 +1,12 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import "./formularioVehiculo.scss"
 import { modificarDatosVehiculo, obtenerVehiculo } from "@/util/peticiones/peticionesVehiculos";
 import type { Vehiculo } from "@/interfaces/Vehiculos";
 import { useLocation, useNavigate } from "react-router-dom";
-import { VehiculoSeleccionadoContext } from "@/util/contextos/VehiculoSeleccionado";
+
 
 export default function FormularioVehiculo() {
-  const contextVehiculo = useContext(VehiculoSeleccionadoContext)
+  const location = useLocation()
   const navigate = useNavigate()
   const [formData, setFormData] = useState<Vehiculo>({
     id: null,
@@ -78,48 +78,42 @@ export default function FormularioVehiculo() {
     
   };
   async function obtenerDatosDelVehiculo() {
-    // const id = location.state.id
-    // const respuesta = await obtenerVehiculo(id);
-    // if (respuesta != undefined && respuesta.status == 200) {
-    //   if (formData != undefined && formData != null) {
-    //     let aux: Vehiculo = {
-    //       id: null,
-    //       nombre: "",
-    //       ubicacion: {
-    //         id: null,
-    //         pais: "",
-    //         provincia: "",
-    //         ciudad: "",
-    //         calle: "",
-    //         numero: 0
-    //       },
-    //       bateria: {
-    //         id: null,
-    //         nombre: "",
-    //         numero_celdas: 0
-    //       }
-    //     }
-        // aux.id = respuesta.data.id
-        // aux.nombre = respuesta.data.nombre
-        // aux.ubicacion.id = respuesta.data.ubicacion.id
-        // aux.ubicacion.pais = respuesta.data.ubicacion.pais
-        // aux.ubicacion.provincia = respuesta.data.ubicacion.provincia
-        // aux.ubicacion.ciudad = respuesta.data.ubicacion.ciudad
-        // aux.ubicacion.calle = respuesta.data.ubicacion.calle
-        // aux.ubicacion.numero = respuesta.data.ubicacion.numero
-        // aux.bateria.id = respuesta.data.bateria.id
-        // aux.bateria.nombre = respuesta.data.bateria.nombre
-        // aux.bateria.numero_celdas = respuesta.data.bateria.numero_celdas
-    //     setFormData(context)
-    //   } else {
-    //     console.log("Error al obtener los datos de configuración")
-    //   }
-    // }
-    if(contextVehiculo != undefined && contextVehiculo.vehiculoSeleccionado != undefined){
-      console.log(contextVehiculo.vehiculoSeleccionado);
-      setFormData(contextVehiculo.vehiculoSeleccionado);
-    }else{
-      throw new Error("El contexto del vehiculo no existe en el formulario");
+    const id = location.state.id
+    const respuesta = await obtenerVehiculo(id);
+    if (respuesta != undefined && respuesta.status == 200) {
+      if (formData != undefined && formData != null) {
+        let aux: Vehiculo = {
+          id: null,
+          nombre: "",
+          ubicacion: {
+            id: null,
+            pais: "",
+            provincia: "",
+            ciudad: "",
+            calle: "",
+            numero: 0
+          },
+          bateria: {
+            id: null,
+            nombre: "",
+            numero_celdas: 0
+          }
+        }
+        aux.id = respuesta.data.id
+        aux.nombre = respuesta.data.nombre
+        aux.ubicacion.id = respuesta.data.ubicacion.id
+        aux.ubicacion.pais = respuesta.data.ubicacion.pais
+        aux.ubicacion.provincia = respuesta.data.ubicacion.provincia
+        aux.ubicacion.ciudad = respuesta.data.ubicacion.ciudad
+        aux.ubicacion.calle = respuesta.data.ubicacion.calle
+        aux.ubicacion.numero = respuesta.data.ubicacion.numero
+        aux.bateria.id = respuesta.data.bateria.id
+        aux.bateria.nombre = respuesta.data.bateria.nombre
+        aux.bateria.numero_celdas = respuesta.data.bateria.numero_celdas
+        setFormData(aux)
+      } else {
+        throw new Error("Error al obtener los datos de configuración")
+      }
     }
   }
   useEffect(() => {

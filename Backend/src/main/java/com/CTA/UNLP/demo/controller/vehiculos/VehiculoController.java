@@ -28,4 +28,8 @@ public class VehiculoController {
     public ResponseEntity<String> modificarVehiculo(@RequestBody Vehiculo vehiculo){
         return vehiculoService.modificarVehiculo(vehiculo);
     }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> eliminarVehiculo(@PathVariable Integer id){
+        return vehiculoService.eliminarVehiculo(id);
+    }
 }

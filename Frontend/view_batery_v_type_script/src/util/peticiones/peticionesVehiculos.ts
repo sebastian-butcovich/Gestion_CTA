@@ -1,6 +1,5 @@
 import type { Vehiculo } from "@/interfaces/Vehiculos";
-import axios, { AxiosError } from "axios";
-import { data } from "react-router-dom";
+import axios from "axios";
 import { URL } from "@/configuraciones";
 export async function obtenerVehiculos(){
     try{
@@ -33,5 +32,15 @@ export async function modificarDatosVehiculo(vehiculo:Vehiculo){
     }catch(error:any){
         console.log("Este error ocurre en la petición modificar los datos del vehiclo ", error);
         return error.status
+    }
+}
+export async function eliminarVehiculo(id:number){
+    const url = `${URL}vehiculos/${id}`
+    try{
+        const response = await axios.delete(url)
+        return response;
+    }catch(error:any){
+        console.log(error)
+        return error.response
     }
 }

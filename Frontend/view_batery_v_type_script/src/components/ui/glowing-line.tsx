@@ -30,11 +30,11 @@ const chartData = [
 
 const chartConfig = {
   carga: {
-    label: "Corriente",
+    label: "Carga",
     color: "var(--chart-1)",
   },
   corriente: {
-    label: "Carga",
+    label: "Corriente",
     color: "var(--chart-2)",
   },
   tension: {

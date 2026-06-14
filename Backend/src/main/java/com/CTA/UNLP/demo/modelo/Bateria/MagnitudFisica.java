@@ -19,5 +19,6 @@ public  class MagnitudFisica {
     private TipoMagnitud magnitud;
     @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JsonBackReference
+    @JoinColumn(name = "bateria_id")
     private Bateria bateria;
 }

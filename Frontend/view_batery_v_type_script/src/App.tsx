@@ -10,7 +10,6 @@ import { Telemetria } from "./vistas/transportesElectricos/vehiculos/vistaIntern
 import { Partes } from "./vistas/transportesElectricos/vehiculos/vistaInterna/partes/Partes";
 import Proyectos from "./vistas/gerencia/proyectos/Proyectos";
 import Configuracion from "./vistas/transportesElectricos/vehiculos/vistaInterna/configuracion/Configuracion";
-import VehiculoSeleccionado from "./util/contextos/VehiculoSeleccionado";
 const rutas = createBrowserRouter([
   {
     path: "/",
@@ -64,8 +63,6 @@ const rutas = createBrowserRouter([
 ]);
 function App() {
   return (
-    <VehiculoSeleccionado>
-      <RouterProvider router={rutas}></RouterProvider>
-    </VehiculoSeleccionado>)
+      <RouterProvider router={rutas}></RouterProvider>)
 }
 export default App;
