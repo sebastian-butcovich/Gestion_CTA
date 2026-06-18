@@ -1,32 +1,19 @@
 "use client";
 
 import { CartesianGrid, Line, LineChart, XAxis } from "recharts";
-import { obtenerMagnitudes } from "@/util/peticiones/peticionesMagnitud";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
 import {
-  ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import { Badge } from "@/components/ui/badge";
-import { useEffect, useState } from "react";
-import { formatearDatos, formatearParaGraficar } from "@/util/formatearDatos";
+import type { ChartConfig } from "@/components/ui/chart";
 
-const chartData = [
-  { month: "January", desktop: 186, mobile: 87, nuevo: 44 },
-  { month: "February", desktop: 305, mobile: 163, nuevo: 454 },
-  { month: "March", desktop: 237, mobile: 142, nuevo: 54 },
-  { month: "April", desktop: 73, mobile: 195, nuevo: 34 },
-  { month: "May", desktop: 209, mobile: 118, nuevo: 24 },
-
-];
 
 const chartConfig = {
   carga: {
@@ -46,44 +33,21 @@ const chartConfig = {
     color:"var(--chart-4)"
   }
 } satisfies ChartConfig;
+
 //Función que grafica lineas 
-export function GlowingLineChart(id:number) {
-  //Guarda la respuesta de la última petición realizada
-  const [magnitudes, setMagnitudes] = useState([]);
-  //Guarda los datos formateados para representarlos en el gráfico
-  const [datos, setDatos] = useState([{}]);
-// Obtiene los datos del servidor 
-  async function obtenerDatos() {
-    //Obtengo las magnitudes con el formato de la respuesta del back
-    const magnitudesResponse = await obtenerMagnitudes(id);
-    //Los guardo
-    setMagnitudes(magnitudesResponse);
-    //Obtengo una parte de los datos (no quiero todas las entradas ya que pueden ser muchas) y además formateo la fecha de una manera 
-    // que me sirva para mostrar
-    let dAux = formatearDatos(magnitudesResponse);
-    //Formateo los datos para poder mostrarlo en el gráfico
-    let fDAux = formatearParaGraficar(dAux);
-    console.log(fDAux);
-    setDatos(fDAux);
-  }
-  useEffect(() => {
-    const intervalId = setInterval(()=>{
-      obtenerDatos();
-    },5000);
-    return ()=>clearInterval(intervalId)
-  }, [])
+export function GlowingLineChart({datos}:any) {
   return (
     <Card>
       <CardHeader>
         <CardTitle>
-          Micrito 2
-          <Badge
+          {/* Micrito 2 */}
+          {/* <Badge
             variant="outline"
             className="text-green-500 bg-green-500/10 border-none ml-2"
           >
-          </Badge>
+          </Badge> */}
         </CardTitle>
-        <CardDescription>Magnitudes - Enero 2026</CardDescription>
+        {/* <CardDescription>Magnitudes - Enero 2026</CardDescription> */}
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig}>

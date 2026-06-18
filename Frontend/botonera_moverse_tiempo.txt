@@ -1,0 +1,124 @@
+import React, { useState, useEffect } from "react";
+import { GlowingLineChart } from "@/components/ui/glowing-line";
+
+// Definimos la interfaz para tipar los datos históricos que vienen del backend
+interface MagnitudData {
+  time: string; // El eje X (ej: "16:03")
+  bateria_1: number;
+  bateria_2: number;
+}
+
+export default function DashboardMagnitudes() {
+  // Estado para el filtro temporal (por defecto traemos la última hora)
+  const [timeRange, setTimeRange] = useState<string>("1h");
+  const [chartData, setChartData] = useState<MagnitudData[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+
+  // Cada vez que cambie el timeRange, se dispara la consulta al backend
+  useEffect(() => {
+    const fetchHistorial = async () => {
+      setLoading(true);
+      try {
+        // Tu llamada a la API de Spring Boot pasando el rango como query param
+        const response = await fetch(`/api/magnitudes/historial?range=${timeRange}`);
+        const data = await response.json();
+        setChartData(data);
+      } catch (error) {
+        console.error("Error al traer el historial:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchHistorial();
+  }, [timeRange]); // 👈 El useEffect reacciona al cambio de filtro
+
+2. Crear la botonera de Filtros (UI)
+
+Podés meter un grupo de botones arriba a la derecha del gráfico, usando estilos de Tailwind que hagan juego con la estética moderna de tu panel:
+TypeScript
+
+  return (
+    <div className="p-6 bg-slate-950 rounded-xl border border-slate-800 space-y-4">
+      <div className="flex justify-between items-center">
+        <div>
+          <h2 className="text-xl font-semibold text-white">Micrito 2</h2>
+          <p className="text-xs text-slate-400">Magnitudes - Historial</p>
+        </div>
+
+        {/* Botonera de Rangos de Tiempo */}
+        <div className="flex bg-slate-900 p-1 rounded-lg border border-slate-800 text-xs">
+          {[
+            { label: "1 Hora", value: "1h" },
+            { label: "24 Horas", value: "24h" },
+            { label: "7 Días", value: "7d" },
+            { label: "Enero 2026", value: "jan_2026" },
+          ].map((item) => (
+            <button
+              key={item.value}
+              onClick={() => setTimeRange(item.value)}
+              className={`px-3 py-1.5 rounded-md transition-all ${
+                timeRange === item.value
+                  ? "bg-emerald-500 text-slate-950 font-medium shadow-md shadow-emerald-500/20"
+                  : "text-slate-400 hover:text-white"
+              }`}
+            >
+              {item.label}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Renderizado condicional del Gráfico o el Spinner de carga */}
+      <div className="h-[400px] w-full relative flex items-center justify-center">
+        {loading ? (
+          <div className="text-emerald-500 flex flex-col items-center gap-2">
+            {/* Un spinner simple con Tailwind */}
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-500"></div>
+            <span className="text-xs text-slate-400">Cargando datos históricos...</span>
+          </div>
+        ) : (
+          // Tu componente original con los nuevos datos mutados por el filtro
+          <GlowingLineChart data={chartData} />
+        )}
+      </div>
+    </div>
+  );
+}
+
+3. El Backend (Tip rápido para tu controlador de Spring Boot)
+
+Para que esto funcione redondo, tu controlador en Java tiene que recibir ese parámetro range y mapearlo a fechas reales. Una forma limpia de procesarlo en tu servicio de Spring es restarle el tiempo al momento actual:
+Java
+
+@GetMapping("/api/magnitudes/historial")
+public ResponseEntity<List<MagnitudFisicaDTO>> getHistorial(@RequestParam String range) {
+    LocalDateTime fin = LocalDateTime.now();
+    LocalDateTime inicio;
+
+    switch (range) {
+        case "24h":
+            inicio = fin.minusDays(1);
+            break;
+        case "7d":
+            inicio = fin.minusDays(7);
+            break;
+        case "jan_2026":
+            inicio = LocalDateTime.of(2026, 1, 1, 0, 0);
+            fin = LocalDateTime.of(2026, 1, 31, 23, 59);
+            break;
+        case "1h":
+        default:
+            inicio = fin.minusHours(1);
+            break;
+    }
+
+    List<MagnitudFisica> datos = magnitudRepository.findByFechaBetween(inicio, fin);
+    return ResponseEntity.ok(convertToDto(datos));
+}
+
+💡 Consejo Pro para el rendimiento en React
+
+Fijate que el gráfico original tuyo muestra los minutos muy pegados (16:0:3, 16:5:3). Si traés los datos de todo un mes, vas a tener decenas de miles de registros y el navegador se va a poner súper lento para procesar el filtro de resplandor (glow effect).
+
+Si vas a pedir rangos grandes como "7d" o "Enero 2026", asegurate de que la query de SQL o tu backend haga un promedio por hora o por día (un downsampling) en lugar de traer los puntos minuto a minuto. De esa forma, el gráfico se mantiene liviano y la visualización de la curva histórica sigue siendo perfecta.
