@@ -37,7 +37,7 @@ export function VehiculosElectricos(){
             if(response.isConfirmed){
                 const result = await eliminarVehiculo(idVehiculo);
                 if(result.status == 200){
-                    
+                    obtenerVehiculosElectricos();
                 }
             }
         });

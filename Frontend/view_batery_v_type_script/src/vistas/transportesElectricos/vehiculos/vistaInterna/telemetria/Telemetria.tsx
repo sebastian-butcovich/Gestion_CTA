@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import type { Filtro } from "@/util/peticiones/peticionesMagnitud";
 import { obtenerVehiculo } from "@/util/peticiones/peticionesVehiculos";
 import { formatearDatos, formatearParaGraficar } from "@/util/formatearDatos";
-import { obtenerMagnitudes } from "@/util/peticiones/peticionesMagnitud";
+import { obtenerMagnitudes, obtenerMagnitudesFiltradas } from "@/util/peticiones/peticionesMagnitud";
 import Swal from "sweetalert2";
 export function Telemetria() {
   const location = useLocation()
@@ -26,7 +26,8 @@ export function Telemetria() {
     mesInicio: 0.0,
     mesFin: 0.0,
     anioInicio: 0.0,
-    anioFin: 0.0
+    anioFin: 0.0,
+    tipo:""
   })
   const aplicarFiltroPersonalizado = () => {
     if (!fechaInicio || !horaInicio || !fechaFin || !horaFin) {
@@ -48,7 +49,8 @@ export function Telemetria() {
       mesInicio: mesIn,
       mesFin: mesFi,
       anioInicio: anioIn,
-      anioFin: anioFi
+      anioFin: anioFi,
+      tipo: filtro.tipo === "Personalizado"? "":"Personalizado"
     });
     console.log(filtro)
   };
@@ -76,12 +78,20 @@ export function Telemetria() {
 // Obtiene los datos del servidor 
   async function obtenerDatos() {
     //Obtengo las magnitudes con el formato de la respuesta del back
-    const magnitudesResponse = await obtenerMagnitudes(id,filtro);
-    //Los guardo
+    const magnitudesResponse = await obtenerMagnitudes(id);
+    formatearDatosParaGrafico(magnitudesResponse);
+  }
+  async function obtenerDatosFiltrados() {
+    //Obtengo las magnitudes con el formato de la respuesta del back
+    const magnitudesResponse = await obtenerMagnitudesFiltradas(id, filtro);
+    formatearDatosParaGrafico(magnitudesResponse);
+  }
+  function formatearDatosParaGrafico(magnitudesResponse:any) {
+     //Los guardo
     setMagnitudes(magnitudesResponse);
     //Obtengo una parte de los datos (no quiero todas las entradas ya que pueden ser muchas) y además formateo la fecha de una manera 
     // que me sirva para mostrar
-    let dAux = formatearDatos(magnitudesResponse);
+    let dAux = formatearDatos(magnitudesResponse,filtro.tipo);
     //Formateo los datos para poder mostrarlo en el gráfico
     let fDAux = formatearParaGraficar(dAux);
     console.log(fDAux);
@@ -89,7 +99,13 @@ export function Telemetria() {
   }
   useEffect(() => {
     const intervalId = setInterval(()=>{
-      obtenerDatos();
+      if(filtro.tipo === ""){
+        console.log("Se obtiene la telemetría sin filtro")
+        obtenerDatos();
+      }else{
+        console.log("Se obtiene la telemetría con filtro")
+        obtenerDatosFiltrados();
+      }
     },5000);
     return ()=>clearInterval(intervalId)
   }, [filtro])
@@ -113,7 +129,7 @@ export function Telemetria() {
           ].map((item) => (
             <button
               key={item.value}
-              onClick={() => {
+              onClick={async () => {
                 if(timeRange === item.value){
                   setTimeRange("")
                   console.log("timeRange", timeRange)
@@ -126,7 +142,8 @@ export function Telemetria() {
                   mesInicio: 0.0,
                   mesFin: 0.0,
                   anioInicio: 0.0,
-                  anioFin: 0.0
+                  anioFin: 0.0,
+                  tipo:""
                 })
                 }else{
                   setTimeRange(item.value)
@@ -143,6 +160,11 @@ export function Telemetria() {
                     //getMonth() -> Te devuelve el mes anterior al que se está actualmente.
                     filtro.mesInicio = filtro.mesFin = fechaHora.getMonth() + 1
                     filtro.anioInicio = filtro.anioFin = fechaHora.getFullYear()
+                    if(filtro.tipo === "1h"){
+                      filtro.tipo = ""
+                    }else{
+                      filtro.tipo = "1h"
+                    }
                     break;
                   }
                   case "24h": {
@@ -154,7 +176,11 @@ export function Telemetria() {
                     //getMonth() -> Te devuelve el mes anterior al que se está actualmente.
                     filtro.mesInicio = filtro.mesFin = fechaHora.getMonth() + 1
                     filtro.anioInicio = filtro.anioFin = fechaHora.getFullYear()
-                    console.log("Hora inicio", filtro.hInicio)
+                    if(filtro.tipo === "24h"){
+                      filtro.tipo = ""
+                    }else{
+                      filtro.tipo = "24h"
+                    }
                     break;
                   }
                   case "7d": {
@@ -179,6 +205,11 @@ export function Telemetria() {
                       filtro.diaInicio = diasDelMes + fechaHora.getDate() - 7
                     } else {
                       filtro.anioInicio = filtro.anioFin = fechaHora.getFullYear()
+                    }
+                     if(filtro.tipo === "7d"){
+                      filtro.tipo = ""
+                    }else{
+                      filtro.tipo = "7d"
                     }
                     break;
                   }
@@ -205,6 +236,11 @@ export function Telemetria() {
                     filtro.minutos = fechaHora.getMinutes();
                     filtro.mesInicio = filtro.mesFin = fechaHora.getMonth() + 1
                     filtro.anioInicio = filtro.anioFin = fechaHora.getFullYear()
+                    if(filtro.tipo === "mes"){
+                      filtro.tipo = ""
+                    }else{
+                      filtro.tipo = "mes"
+                    }
                     break;
                   }
                   case "": {
@@ -218,10 +254,13 @@ export function Telemetria() {
                       mesInicio: 0.0,
                       mesFin: 0.0,
                       anioInicio: 0.0,
-                      anioFin: 0.0
+                      anioFin: 0.0,
+                      tipo:""
                     })
+                    break;
                   }
-                }
+                }            
+                  obtenerDatosFiltrados();
               }}
               className={`px-3 py-1.5 rounded-md transition-all ${timeRange === item.value
                 ? "bg-emerald-500 text-slate-950 font-medium shadow-md shadow-emerald-500/20"

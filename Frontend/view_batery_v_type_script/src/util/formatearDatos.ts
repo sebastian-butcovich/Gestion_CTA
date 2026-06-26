@@ -1,9 +1,8 @@
 //Lo que hace esta función es tomar una fecha que viene con el formato 2026-01-06T19:53:31.832Z
 // Y pasarlo a un formato más legible mes-dia
 // Además reduce el tamaño de muestras totales a algo mas finito ya que es imposible mostrar miles de entradas en un gráfico
-export function formatearDatos(magnitudes){
+export function formatearDatos(magnitudes:any,tipo:string){
     let formateadas=[];
-
     if(magnitudes.length > 90){
         for(let k=magnitudes.length-60;k<magnitudes.length;k++){
         //Obtengo la fecha
@@ -21,8 +20,29 @@ export function formatearDatos(magnitudes){
         //Obtengo la fecha
         let f = magnitudes[k].fecha;
         let d = new Date(f);
-        //console.log(d.getHours())
-        let fFormateada = `${d.getHours()+3}:${d.getMinutes()}:${d.getSeconds()}`;
+         let fFormateada;
+        switch(tipo){
+             default:{
+                  fFormateada = `${d.getHours()+3}:${d.getMinutes()}:${d.getSeconds()}`;
+                  break;
+            }
+            case "1h":{
+                fFormateada = `${d.getHours()+3}:${d.getMinutes()}:${d.getSeconds()}`;
+                break;
+            }
+            case "24h":{
+                fFormateada = `${d.getDate()}/${d.getMonth()+1} ${d.getHours()+3}:${d.getMinutes()}`;
+                break;
+            }
+            case "7d":{
+                fFormateada = `${d.getDate()}/${d.getMonth()+1} ${d.getHours()+3}:${d.getMinutes()}`;
+                break;
+            }
+            case "mes":{
+                fFormateada = `${d.getDate()}/${d.getMonth()+1} ${d.getHours()+3}:${d.getMinutes()}`;
+                break;
+            }
+        }
         formateadas.push({
             fecha:fFormateada,
             valor:magnitudes[k].valor,
@@ -35,7 +55,7 @@ export function formatearDatos(magnitudes){
 //En esta función se junta los datos en una sola unidad
 //{fecha:valor,corriente:valor,tension:valor,carga:valor,temperatura:valor}
 //Con ese formato voy a poder gráficar todos los valores.
-export function formatearParaGraficar(magnitudes){
+export function formatearParaGraficar(magnitudes:any){
      let formateo = []
      console.log(magnitudes.length)
      for(let m=0;m<magnitudes.length/4;m++){

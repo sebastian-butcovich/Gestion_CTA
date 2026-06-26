@@ -1,5 +1,6 @@
 package com.CTA.UNLP.demo.service.vehiculos.Bateria;
 
+import com.CTA.UNLP.demo.fileRequest.Request.FiltroRequest;
 import com.CTA.UNLP.demo.fileRequest.Request.MagnitudFisicaRequest;
 import com.CTA.UNLP.demo.fileRequest.Response.Bateria.MagnitudFisica.ListMagnitudFisicas;
 import com.CTA.UNLP.demo.fileRequest.Response.Bateria.MagnitudFisica.MagnitudFisicaResponse;
@@ -13,9 +14,14 @@ import com.CTA.UNLP.demo.repository.Bateria.MagnitudFisicaRepository;
 import com.CTA.UNLP.demo.repository.VehiculoRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
+import java.sql.Timestamp;
+import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -79,12 +85,65 @@ public ResponseEntity<ListMagnitudFisicas> obtenerMagnitudes(Long idBateria){
         if(magnitudesFisicas.isEmpty()){
             return ResponseEntity.ok(new ListMagnitudFisicas(new ArrayList<MagnitudFisicaResponse>(),"No hay magnitudes asociadas a esta id de bateria"+idBateria));
         }
-        List<MagnitudFisicaResponse> magnitudFisicaResponses = new ArrayList<MagnitudFisicaResponse>();
-        for(MagnitudFisica m: magnitudesFisicas){
-            MagnitudFisicaResponse aux = new MagnitudFisicaResponse(m.getValor(),m.getMagnitud(),m.getFecha(),m.getBateria().getId());
-            magnitudFisicaResponses.add(aux);
-        }
-        return  ResponseEntity.ok(new ListMagnitudFisicas(magnitudFisicaResponses,"Las magnitudes fisicas asociadas a la bateria "+idBateria));
+        return formatearDatos(magnitudesFisicas,idBateria);
 }
+private ResponseEntity<ListMagnitudFisicas> formatearDatos(List<MagnitudFisica> magnitudesFisicas, Long idBateria) {
+    List<MagnitudFisicaResponse> magnitudFisicaResponses = new ArrayList<MagnitudFisicaResponse>();
+    for(MagnitudFisica m: magnitudesFisicas){
+        MagnitudFisicaResponse aux = new MagnitudFisicaResponse(m.getValor(),m.getMagnitud(),m.getFecha(),m.getBateria().getId());
+        magnitudFisicaResponses.add(aux);
+    }
+    return  ResponseEntity.ok(new ListMagnitudFisicas(magnitudFisicaResponses,"Las magnitudes fisicas asociadas a la bateria "+idBateria));
+}
+    public ResponseEntity<ListMagnitudFisicas> obtenerMagnitudFisicaFiltrada(Long idBateria, FiltroRequest filtro){
+        //Preguntar o hacer un switch sobre que filtro llego
+        List<MagnitudFisica> datos;
+        LocalDateTime fechaInicio;
+        LocalDateTime fechaFin;
+        switch (filtro.tipo()){
+            case "1h":{fechaInicio =  LocalDateTime.now().minusHours(1);
+                fechaFin = LocalDateTime.now();
+                break;
+            }
+            case "24h":{
+                fechaInicio =  LocalDateTime.now().minusDays(1);
+                fechaFin = LocalDateTime.now();
+                break;}
+            case "7d":{
+                fechaInicio =  LocalDateTime.now().minusDays(7);
+                fechaFin = LocalDateTime.now();
+                break;
+            }
+            case "mes":{
+                fechaInicio =  LocalDateTime.now().minusMonths(1);
+                fechaFin = LocalDateTime.now();;
+                break;
+            }
+            case "Personalizado":{
+                fechaInicio =  LocalDateTime.of(filtro.anioInicio(),filtro.mesInicio(),filtro.diaInicio(),filtro.hInicio(),filtro.minutos());
+                fechaFin = LocalDateTime.of(filtro.anioFin(),filtro.mesFin(),filtro.diaFin(),filtro.hFin(),filtro.minutos());
+                break;
+            }
+            default:{
+                fechaInicio =  LocalDateTime.now().minusDays(2);
+                fechaFin = LocalDateTime.now();
+                break;
+            }
+
+        }
+        if(filtro.tipo().isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        datos = magnitudFisicaRepository.findByFecha(idBateria,fechaInicio,fechaFin);
+        int paso = datos.size()/(15);
+        List<MagnitudFisica> resultado = new ArrayList<MagnitudFisica>();
+        for(int i=0; i<datos.size()-3; i+=paso){
+            resultado.add(datos.get(i));
+            resultado.add(datos.get(i+1));
+            resultado.add(datos.get(i+2));
+            resultado.add(datos.get(i+3));
+        }
+        return formatearDatos(resultado,idBateria);
+    }
 
 }
