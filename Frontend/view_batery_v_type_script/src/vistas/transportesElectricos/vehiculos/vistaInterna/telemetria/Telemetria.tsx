@@ -84,6 +84,7 @@ export function Telemetria() {
   async function obtenerDatosFiltrados() {
     //Obtengo las magnitudes con el formato de la respuesta del back
     const magnitudesResponse = await obtenerMagnitudesFiltradas(id, filtro);
+    console.log("Magnitudes filtradas", magnitudesResponse);
     formatearDatosParaGrafico(magnitudesResponse);
   }
   function formatearDatosParaGrafico(magnitudesResponse:any) {
@@ -111,7 +112,8 @@ export function Telemetria() {
   }, [filtro])
   return (<div className="contenedor" >
     <h1 className="titulo">Telemetria del automóvil</h1>
-    <div className="p-6 bg-slate-950 rounded-xl border border-slate-800 space-y-4">
+    <div className="contenedor-grafico">
+      <div className="p-6 bg-slate-950 rounded-xl border border-slate-800 space-y-4 w-full h-auto contenedor-grafico-carga-descarga-uno">
       <div className="flex flex-col justify-between items-center" >
         <div>
           <h2 className="text-xl font-semibold text-white">{nombreVehiculo}</h2>
@@ -320,6 +322,16 @@ export function Telemetria() {
         )}
       </div>
       <GlowingLineChart datos={datos} />
+    </div>
+    <div className="p-6 bg-slate-950 rounded-xl border border-slate-800 space-y-4  h-auto contenedor-grafico-carga-descarga-dos">
+      <div className="flex flex-col justify-between items-center w-100" >
+        <div className="contenedor-grafico-carga-descarga-titulo">
+          <h2 className="text-xl font-semibold text-white">{nombreVehiculo}</h2>
+          <p className="text-xs text-slate-400">Magnitudes - Historial</p>
+        </div>
+      </div>
+      <GlowingLineChart datos={datos} />
+    </div>
     </div>
   </div>)
 }

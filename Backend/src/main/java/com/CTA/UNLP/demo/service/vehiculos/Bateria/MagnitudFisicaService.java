@@ -55,21 +55,26 @@ public class MagnitudFisicaService {
                     m.setMagnitud(i.tipo());
                     m.setValor(i.valor());
                     m.setFecha(i.fecha());
-                    b.getMagnitudes().add(m);
                     m.setBateria(b);
+                    magnitudFisicaRepository.save(m);
+                    b.getMagnitudes().add(m);
                 }
                 v.setBateria(b);
                 vehiculoRepository.save(v);
                 return b.getId();
             }else{
                 Long idBateria = magnitudFisicaRequest.getFirst().idBateria();
-                Bateria b = bateriaRepository.findById(idBateria).orElseThrow();
+                Bateria b = bateriaRepository.findById(idBateria).orElse(null);
+                if(b == null){
+                    return (long)0;
+                }
                 for(MagnitudFisicaRequest i:magnitudFisicaRequest) {
                     MagnitudFisica m = new MagnitudFisica();
                     m.setBateria(b);
                     m.setFecha(i.fecha());
                     m.setValor(i.valor());
                     m.setMagnitud(i.tipo());
+                    magnitudFisicaRepository.save(m);
                    b.getMagnitudes().add(m);
                 }
                 bateriaRepository.save(b);
@@ -135,9 +140,14 @@ private ResponseEntity<ListMagnitudFisicas> formatearDatos(List<MagnitudFisica> 
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         datos = magnitudFisicaRepository.findByFecha(idBateria,fechaInicio,fechaFin);
-        int paso = datos.size()/(15);
+        int paso;
+        if(datos.size()<=60){
+            paso = 1;
+        }else{
+           paso = datos.size()/(60);
+        }
         List<MagnitudFisica> resultado = new ArrayList<MagnitudFisica>();
-        for(int i=0; i<datos.size()-3; i+=paso){
+        for(int i=0; i<datos.size()-3; i+=4*paso){
             resultado.add(datos.get(i));
             resultado.add(datos.get(i+1));
             resultado.add(datos.get(i+2));

@@ -9,7 +9,7 @@ export function formatearDatos(magnitudes:any,tipo:string){
         let f = magnitudes[k].fecha;
         let d = new Date(f);
         console.log(d.getHours())
-        let fFormateada = `${d.getHours()+3}:${d.getMinutes()}:${d.getSeconds()}`;
+        let fFormateada = `${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}`;
         formateadas.push({
             fecha:fFormateada,
             valor:magnitudes[k].valor,
@@ -23,11 +23,11 @@ export function formatearDatos(magnitudes:any,tipo:string){
          let fFormateada;
         switch(tipo){
              default:{
-                  fFormateada = `${d.getHours()+3}:${d.getMinutes()}:${d.getSeconds()}`;
+                  fFormateada = `${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}`;
                   break;
             }
             case "1h":{
-                fFormateada = `${d.getHours()+3}:${d.getMinutes()}:${d.getSeconds()}`;
+                fFormateada = `${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}`;
                 break;
             }
             case "24h":{

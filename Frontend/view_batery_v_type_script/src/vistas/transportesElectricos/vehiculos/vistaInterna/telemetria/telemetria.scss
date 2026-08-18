@@ -1,3 +1,29 @@
+.contenedor{
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
 .titulo{
     margin-bottom: 2rem;
+}
+.contenedor-grafico{
+    width:100%;
+    height: auto;
+    display: flex;
+    justify-content: space-around;
+}
+.contenedor-grafico-carga-descarga-uno{
+    width:95%;
+    height: auto;
+}
+.contenedor-grafico-carga-descarga-dos{
+    width:95%;
+    height: auto;
+    
+}
+.contenedor-grafico-carga-descarga-titulo{
+    margin-bottom: 3.2rem;
 }
