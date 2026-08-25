@@ -3,13 +3,14 @@
 // Además reduce el tamaño de muestras totales a algo mas finito ya que es imposible mostrar miles de entradas en un gráfico
 export function formatearDatos(magnitudes:any,tipo:string){
     let formateadas=[];
+    console.log("Estoy aca",magnitudes.length)
     if(magnitudes.length > 90){
         for(let k=magnitudes.length-60;k<magnitudes.length;k++){
         //Obtengo la fecha
         let f = magnitudes[k].fecha;
         let d = new Date(f);
         console.log(d.getHours())
-        let fFormateada = `${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}`;
+        let fFormateada = `${d.getDate()}/${d.getHours()}:${d.getMinutes()}`;
         formateadas.push({
             fecha:fFormateada,
             valor:magnitudes[k].valor,
@@ -20,10 +21,11 @@ export function formatearDatos(magnitudes:any,tipo:string){
         //Obtengo la fecha
         let f = magnitudes[k].fecha;
         let d = new Date(f);
-         let fFormateada;
+        let fFormateada;
+        console.log("Tipo: ",tipo)
         switch(tipo){
              default:{
-                  fFormateada = `${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}`;
+                  fFormateada = `${d.getDate()}/${d.getMonth()+1} ${d.getHours()}:${d.getMinutes()}`;
                   break;
             }
             case "1h":{
@@ -31,15 +33,19 @@ export function formatearDatos(magnitudes:any,tipo:string){
                 break;
             }
             case "24h":{
-                fFormateada = `${d.getDate()}/${d.getMonth()+1} ${d.getHours()+3}:${d.getMinutes()}`;
+                fFormateada = `${d.getDate()}/${d.getMonth()+1} ${d.getHours()}`;
                 break;
             }
             case "7d":{
-                fFormateada = `${d.getDate()}/${d.getMonth()+1} ${d.getHours()+3}:${d.getMinutes()}`;
+                fFormateada = `${d.getDate()}/${d.getMonth()+1} ${d.getHours()}`;
                 break;
             }
             case "mes":{
-                fFormateada = `${d.getDate()}/${d.getMonth()+1} ${d.getHours()+3}:${d.getMinutes()}`;
+                fFormateada = `${d.getDate()}/${d.getMonth()+1} ${d.getHours()}`;
+                break;
+            }
+            case "Personalizado":{
+                fFormateada = `${d.getDate()}/${d.getMonth()+1}-${d.getHours()}`;
                 break;
             }
         }
@@ -57,7 +63,6 @@ export function formatearDatos(magnitudes:any,tipo:string){
 //Con ese formato voy a poder gráficar todos los valores.
 export function formatearParaGraficar(magnitudes:any){
      let formateo = []
-     console.log(magnitudes.length)
      for(let m=0;m<magnitudes.length/4;m++){
         formateo.push({
         fecha:magnitudes[4*m].fecha,

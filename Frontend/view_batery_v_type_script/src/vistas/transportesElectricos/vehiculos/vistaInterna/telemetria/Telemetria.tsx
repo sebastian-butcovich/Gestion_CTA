@@ -323,7 +323,7 @@ export function Telemetria() {
       </div>
       <GlowingLineChart datos={datos} />
     </div>
-    <div className="p-6 bg-slate-950 rounded-xl border border-slate-800 space-y-4  h-auto contenedor-grafico-carga-descarga-dos">
+    {/* <div className="p-6 bg-slate-950 rounded-xl border border-slate-800 space-y-4  h-auto contenedor-grafico-carga-descarga-dos">
       <div className="flex flex-col justify-between items-center w-100" >
         <div className="contenedor-grafico-carga-descarga-titulo">
           <h2 className="text-xl font-semibold text-white">{nombreVehiculo}</h2>
@@ -331,7 +331,7 @@ export function Telemetria() {
         </div>
       </div>
       <GlowingLineChart datos={datos} />
-    </div>
+    </div> */}
     </div>
   </div>)
 }
