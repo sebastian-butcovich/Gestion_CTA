@@ -25,7 +25,7 @@ export function formatearDatos(magnitudes:any,tipo:string){
         console.log("Tipo: ",tipo)
         switch(tipo){
              default:{
-                  fFormateada = `${d.getDate()}/${d.getMonth()+1} ${d.getHours()}:${d.getMinutes()}`;
+                  fFormateada = `${d.getDate()}/${d.getMonth()+1}-${d.getHours()}:${d.getMinutes()}`;
                   break;
             }
             case "1h":{
