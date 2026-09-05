@@ -6,11 +6,13 @@ import com.CTA.UNLP.demo.fileRequest.Response.Bateria.MagnitudFisica.ListMagnitu
 import com.CTA.UNLP.demo.fileRequest.Response.Bateria.MagnitudFisica.MagnitudFisicaResponse;
 import com.CTA.UNLP.demo.modelo.Bateria.Bateria;
 import com.CTA.UNLP.demo.modelo.Bateria.MagnitudFisica;
+import com.CTA.UNLP.demo.modelo.Bateria.TipoMagnitud;
 import com.CTA.UNLP.demo.modelo.Partes.Partes;
 import com.CTA.UNLP.demo.modelo.Ubicacion;
 import com.CTA.UNLP.demo.modelo.Vehiculo;
 import com.CTA.UNLP.demo.repository.Bateria.BateriaRepository;
 import com.CTA.UNLP.demo.repository.Bateria.MagnitudFisicaRepository;
+import com.CTA.UNLP.demo.repository.Bateria.TipoMagnitudRepository;
 import com.CTA.UNLP.demo.repository.VehiculoRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -33,6 +35,7 @@ public class MagnitudFisicaService {
     private final MagnitudFisicaRepository magnitudFisicaRepository;
     private final BateriaRepository bateriaRepository;
     private final VehiculoRepository vehiculoRepository;
+    private final TipoMagnitudRepository tipoMagnitudRepository;
     @Transactional
     public Long agregarMagnitudFisica(List<MagnitudFisicaRequest> magnitudFisicaRequest){
             if(magnitudFisicaRequest.getFirst().idBateria() == null || magnitudFisicaRequest.getFirst().idBateria() <= 0){
@@ -52,7 +55,10 @@ public class MagnitudFisicaService {
                 b.setMagnitudes(new ArrayList<MagnitudFisica>());
                 for(MagnitudFisicaRequest i:magnitudFisicaRequest) {
                     MagnitudFisica m = new MagnitudFisica();
-                    m.setMagnitud(i.tipo());
+                    //Esto se tiene que modificar, se tiene que poder determinar el tipo de magnitud
+                    //Si no está cargado cargarlo y si está asignarselo como referencia.
+                    TipoMagnitud t = buscarTipoMagnitud(i.tipo().getTipo());
+                    m.setMagnitud(t);
                     m.setValor(i.valor());
                     m.setFecha(i.fecha());
                     m.setBateria(b);
@@ -66,6 +72,7 @@ public class MagnitudFisicaService {
                 Long idBateria = magnitudFisicaRequest.getFirst().idBateria();
                 Bateria b = bateriaRepository.findById(idBateria).orElse(null);
                 if(b == null){
+                    System.out.println("Entraste acá");
                     return (long)0;
                 }
                 for(MagnitudFisicaRequest i:magnitudFisicaRequest) {
@@ -73,7 +80,10 @@ public class MagnitudFisicaService {
                     m.setBateria(b);
                     m.setFecha(i.fecha());
                     m.setValor(i.valor());
-                    m.setMagnitud(i.tipo());
+                    //Esto se tiene que modificar, se tiene que poder determinar el tipo de magnitud
+                    //Si no está cargado cargarlo y si está asignarselo como referencia.
+                    TipoMagnitud t = buscarTipoMagnitud(i.tipo().getTipo());
+                    m.setMagnitud(t);
                     magnitudFisicaRepository.save(m);
                    b.getMagnitudes().add(m);
                 }
@@ -156,4 +166,16 @@ private ResponseEntity<ListMagnitudFisicas> formatearDatos(List<MagnitudFisica> 
         return formatearDatos(resultado,idBateria);
     }
 
+    private TipoMagnitud buscarTipoMagnitud(String tipo){
+        Optional<TipoMagnitud> tipoMagnitud = tipoMagnitudRepository.findByTipo(tipo);
+        TipoMagnitud tp;
+        if(tipoMagnitud.isEmpty()){
+            tp = new TipoMagnitud();
+            tp.setTipo(tipo);
+        }else{
+            tp = tipoMagnitud.get();
+        }
+        return tp;
+    }
 }
+
