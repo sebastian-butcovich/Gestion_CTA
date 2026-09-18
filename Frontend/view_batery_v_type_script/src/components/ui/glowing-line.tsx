@@ -17,19 +17,20 @@ import type { ChartConfig } from "@/components/ui/chart";
 
 const chartConfig = {
   carga: {
-    label: "Carga",
+    label: "Carga (Q) ",
     color: "var(--chart-1)",
+  
   },
   corriente: {
-    label: "Corriente",
+    label: "Corriente (A)",
     color: "var(--chart-2)",
   },
   tension: {
-    label: "Tensión",
+    label: "Tensión (V)",
     color: "var(--chart-3)",
   },
   temperatura:{
-    label:"Temperatura",
+    label:"Temperatura (°C)",
     color:"var(--chart-4)"
   }
 } satisfies ChartConfig;
@@ -68,8 +69,8 @@ export function GlowingLineChart({datos}:any) {
               tickFormatter={(value) => value.slice(0, 7)}
             />
             <ChartTooltip
-              cursor={false}
-              content={<ChartTooltipContent hideLabel />}
+              cursor={false} 
+              content={<ChartTooltipContent hideLabel className="w-56 p-4 text-base" />}
             />
             <Line
               dataKey="corriente"

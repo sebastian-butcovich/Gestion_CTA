@@ -13,7 +13,7 @@ interface Vehiculo{
 }
 export function VehiculosElectricos(){
     //Guarda los vehículos 
-    const[vehiculos,setVehiculos] = useState<Vehiculo>([]);
+    const[vehiculos,setVehiculos] = useState<Vehiculo>([] as unknown as Vehiculo);
     async function obtenerVehiculosElectricos(){
         const response = await obtenerVehiculos();
         if(response.status =200){

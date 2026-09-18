@@ -1,10 +1,9 @@
-package com.CTA.UNLP.demo.controller.vehiculos;
+package com.CTA.UNLP.demo.controller.Vehiculo;
 
+import com.CTA.UNLP.demo.fileRequest.Response.Vehiculo.VehiculoResponse;
 import com.CTA.UNLP.demo.modelo.Vehiculo;
-import com.CTA.UNLP.demo.service.vehiculos.VehiculoService;
-import lombok.NoArgsConstructor;
+import com.CTA.UNLP.demo.service.vehiculos.Vehiculo.VehiculoService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,11 +16,11 @@ public class VehiculoController {
     @Autowired
     private VehiculoService vehiculoService;
     @GetMapping
-    public List<Vehiculo> obtenerTodosLosVehiculos(){
+    public List<VehiculoResponse> obtenerTodosLosVehiculos(){
         return vehiculoService.obtenerTodosLosVehiculos();
     }
     @GetMapping("/{id}")
-    public ResponseEntity<Vehiculo> obtenerVehiculoPorId(@PathVariable Integer id){
+    public ResponseEntity<VehiculoResponse> obtenerVehiculoPorId(@PathVariable Integer id){
         return vehiculoService.obtenerVehiculoPorId(id);
     }
     @PostMapping

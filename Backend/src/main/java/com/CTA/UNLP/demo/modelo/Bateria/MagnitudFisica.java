@@ -15,7 +15,7 @@ public  class MagnitudFisica {
     private Long id;
     private Date fecha;
     private double valor;
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.LAZY)
     private TipoMagnitud magnitud;
     @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JsonBackReference

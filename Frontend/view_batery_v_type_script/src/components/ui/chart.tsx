@@ -271,11 +271,11 @@ function ChartLegendContent({
 
   return (
     <div
-      className={cn(
+      className={ cn(
         "flex items-center justify-center gap-4",
         verticalAlign === "top" ? "pb-3" : "pt-3",
         className
-      )}
+      ) }
     >
       {payload
         .filter((item) => item.type !== "none")

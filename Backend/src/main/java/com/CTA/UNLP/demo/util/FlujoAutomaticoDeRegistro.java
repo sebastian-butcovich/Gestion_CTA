@@ -2,7 +2,7 @@ package com.CTA.UNLP.demo.util;
 
 import com.CTA.UNLP.demo.modelo.Bateria.MagnitudFisica;
 import com.CTA.UNLP.demo.repository.Bateria.BateriaRepository;
-import com.CTA.UNLP.demo.repository.VehiculoRepository;
+import com.CTA.UNLP.demo.repository.Vehiculo.VehiculoRepository;
 import lombok.RequiredArgsConstructor;
 
 /***

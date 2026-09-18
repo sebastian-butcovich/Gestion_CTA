@@ -1,0 +1,63 @@
+/* Contenedor principal */
+.switch-container {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 26px;
+  cursor: pointer;
+}
+
+/* Ocultamos el checkbox por defecto */
+.switch-checkbox {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* El cuerpo del switch (Fondo) */
+.switch-slider {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  border-radius: 34px;
+  transition: background-color 0.3s ease;
+}
+
+/* La bolita que se mueve dentro del switch */
+.switch-slider::before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  border-radius: 50%;
+  transition: transform 0.3s ease;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Cuando el checkbox está activo (Checked), cambia el fondo */
+.switch-checkbox:checked + .switch-slider {
+  background-color: #4cd964; /* Verde tipo iOS */
+}
+
+/* Cuando está activo, mueve la bolita hacia la derecha */
+.switch-checkbox:checked + .switch-slider::before {
+  transform: translateX(24px);
+}
+
+/* Estilos visuales en caso de estar deshabilitado */
+.switch-container.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.switch-wrapper{
+  display: flex;
+  margin-bottom:2rem;
+  align-items: center;
+  gap: 10px; /* Espacio entre el switch y el texto */
+}

@@ -1,4 +1,4 @@
-.contenedor{
+.contenedor {
     width: 100%;
     height: auto;
     display: flex;
@@ -6,24 +6,57 @@
     justify-content: center;
     align-items: center;
 }
-.titulo{
+
+.contenedor-interno {
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.titulo {
+    width:50%;
     margin-bottom: 2rem;
 }
-.contenedor-grafico{
-    width:100%;
+
+.contenedor-grafico {
+    width: 100%;
     height: auto;
     display: flex;
     justify-content: space-around;
 }
-.contenedor-grafico-carga-descarga-uno{
-    width:95%;
+
+.contenedor-grafico-carga-descarga-uno {
+    width: 95%;
     height: auto;
 }
-.contenedor-grafico-carga-descarga-dos{
-    width:95%;
+
+.contenedor-grafico-carga-descarga-dos {
+    width: 95%;
     height: auto;
-    
+
 }
-.contenedor-grafico-carga-descarga-titulo{
+
+.contenedor-grafico-carga-descarga-titulo {
     margin-bottom: 3.2rem;
+}
+
+//Contenedor de los botones de desplazamiento
+.contendor_botones_completo {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+//Botones  de desplazamiento
+.boton_desplazamiento {
+    margin-top: 0.5rem;
+    padding: 0px 20px 0 20px;
+    height: 4.3vh;
+    font-size: 15px;
+    text-align: center;
+    margin-right: 1rem;
+    margin-left: 1rem;
 }

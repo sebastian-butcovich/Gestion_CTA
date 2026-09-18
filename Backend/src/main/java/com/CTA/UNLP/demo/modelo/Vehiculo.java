@@ -18,4 +18,6 @@ public class Vehiculo {
     private Ubicacion ubicacion;
     @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private Bateria bateria;
+    @OneToMany(cascade ={CascadeType.REMOVE, CascadeType.PERSIST},fetch=FetchType.LAZY, mappedBy = "vehiculo")
+    private List<Gps> gps;
 }

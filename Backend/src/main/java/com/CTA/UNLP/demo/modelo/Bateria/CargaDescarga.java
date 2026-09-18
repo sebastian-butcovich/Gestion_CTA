@@ -14,10 +14,12 @@ public class CargaDescarga {
     private Date fechaEntrada;
     private Date fechaInicioDescarga;
     private Date fechaFinDescarga;
+    private Double descarga;
     private Date fechaInicioCarga;
     private Date fechaFinCarga;
-    private Double cargaTotal;
-    private Double descargaTotal;
+    private Double carga;
+    private Double diferenciaDesarga;
+    private Double diferenciaCarga;
     @ManyToOne(fetch = FetchType.LAZY)
     private Bateria bateria;
 }

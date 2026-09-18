@@ -1,8 +1,7 @@
 @import "tailwindcss";
 #root {
   width: 70%;
-  height: auto;
-  min-height: 150vh;
+  height: 100%;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;

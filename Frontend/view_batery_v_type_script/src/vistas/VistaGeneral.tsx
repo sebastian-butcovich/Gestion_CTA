@@ -1,4 +1,4 @@
-import { SideBarMenu } from "@/component/SideBarMenu";
+import { SideBarMenu } from "@/component/sideBar/SideBarMenu";
 import type { SideBarMenuCard, SideBarMenuItem } from "@/types/types";
 import { FaBusSimple } from "react-icons/fa6";
 import { SiNginxproxymanager } from "react-icons/si";

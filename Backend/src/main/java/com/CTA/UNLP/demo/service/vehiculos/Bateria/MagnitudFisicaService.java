@@ -7,25 +7,20 @@ import com.CTA.UNLP.demo.fileRequest.Response.Bateria.MagnitudFisica.MagnitudFis
 import com.CTA.UNLP.demo.modelo.Bateria.Bateria;
 import com.CTA.UNLP.demo.modelo.Bateria.MagnitudFisica;
 import com.CTA.UNLP.demo.modelo.Bateria.TipoMagnitud;
-import com.CTA.UNLP.demo.modelo.Partes.Partes;
 import com.CTA.UNLP.demo.modelo.Ubicacion;
 import com.CTA.UNLP.demo.modelo.Vehiculo;
 import com.CTA.UNLP.demo.repository.Bateria.BateriaRepository;
 import com.CTA.UNLP.demo.repository.Bateria.MagnitudFisicaRepository;
 import com.CTA.UNLP.demo.repository.Bateria.TipoMagnitudRepository;
-import com.CTA.UNLP.demo.repository.VehiculoRepository;
+import com.CTA.UNLP.demo.repository.Vehiculo.VehiculoRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
-import java.sql.Timestamp;
-import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -73,7 +68,7 @@ public class MagnitudFisicaService {
                 Bateria b = bateriaRepository.findById(idBateria).orElse(null);
                 if(b == null){
                     System.out.println("Entraste acá");
-                    return (long)0;
+                    return (long)-2;
                 }
                 for(MagnitudFisicaRequest i:magnitudFisicaRequest) {
                     MagnitudFisica m = new MagnitudFisica();
